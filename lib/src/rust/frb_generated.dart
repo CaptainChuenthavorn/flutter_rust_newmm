@@ -61,7 +61,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
-  String gettoken({required String name, dynamic hint});
+  String getToken({required String name, dynamic hint});
 
   String greet({required String name, dynamic hint});
 
@@ -77,25 +77,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
-  String gettoken({required String name, dynamic hint}) {
+  String getToken({required String name, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 = cst_encode_String(name);
-        return wire.wire_gettoken(arg0);
+        return wire.wire_get_token(arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_String,
         decodeErrorData: null,
       ),
-      constMeta: kGettokenConstMeta,
+      constMeta: kGetTokenConstMeta,
       argValues: [name],
       apiImpl: this,
       hint: hint,
     ));
   }
 
-  TaskConstMeta get kGettokenConstMeta => const TaskConstMeta(
-        debugName: "gettoken",
+  TaskConstMeta get kGetTokenConstMeta => const TaskConstMeta(
+        debugName: "get_token",
         argNames: ["name"],
       );
 

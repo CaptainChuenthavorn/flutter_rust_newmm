@@ -66,8 +66,8 @@ pub fn dart_fn_deliver_output(
 }
 
 #[wasm_bindgen]
-pub fn wire_gettoken(name: String) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_gettoken_impl(name)
+pub fn wire_get_token(name: String) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_get_token_impl(name)
 }
 
 #[wasm_bindgen]

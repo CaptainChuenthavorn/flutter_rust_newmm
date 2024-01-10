@@ -12,9 +12,9 @@ pub fn init_app() {
     flutter_rust_bridge::setup_default_user_utils();
 }
 
-#[flutter_rust_bridge::frb(sync)] // Synchronous mode for simplicity of the demo
-pub fn gettoken(name: String) -> String {
-    let my_str = include_str!("kk_th.txt");
-    // assert_eq!(my_str, "adiós\n");
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_token(name: String) -> String {
+    let my_str = include_str!("words_th.txt");
     format!("{my_str}")
 }

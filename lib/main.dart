@@ -31,8 +31,8 @@ class FutureBuilderExample extends StatefulWidget {
 // จำลองใช้เป็นแบบฟังก์ชั่น ให้เสมือนดึงข้อมูลจาก server
 Future<String> fetchData() async {
   final response = await Future<String>.delayed(
-    const Duration(seconds: 5),
-    () => greet(name: 'POP'),
+    const Duration(seconds: 0),
+    () => getToken(name: 'POP'),
   );
   return response;
 }

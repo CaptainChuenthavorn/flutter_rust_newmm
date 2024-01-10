@@ -2,26 +2,91 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rust_newmm/src/rust/api/simple.dart';
 import 'package:flutter_rust_newmm/src/rust/frb_generated.dart';
 
-Future<void> main() async {
-  await RustLib.init();
-  runApp(const MyApp());
-}
+/// Flutter code sample for [FutureBuilder].
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+void main() => runApp(const FutureBuilderExampleApp());
+
+class FutureBuilderExampleApp extends StatelessWidget {
+  const FutureBuilderExampleApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('flutter_rust_bridge quickstart')),
-        body: Center(
-          child: Column(
-            children: [
-              Text(
-                  'Action: Call Rust `greet("Tom")`\nResult: `${greet(name: "Tom")}`'),
-            ],
-          ),
+    return const MaterialApp(
+      home: FutureBuilderExample(),
+    );
+  }
+}
+
+class FutureBuilderExample extends StatefulWidget {
+  const FutureBuilderExample({super.key});
+
+  @override
+  State<FutureBuilderExample> createState() => _FutureBuilderExampleState();
+}
+
+class _FutureBuilderExampleState extends State<FutureBuilderExample> {
+  final Future<String> _calculation = Future<String>.delayed(
+    const Duration(seconds: 2),
+    () => 'Data Loaded',
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sample Code'),
+      ),
+      body: DefaultTextStyle(
+        style: Theme.of(context).textTheme.displayMedium!,
+        textAlign: TextAlign.center,
+        child: FutureBuilder<String>(
+          future: _calculation, // a previously-obtained Future<String> or null
+          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            List<Widget> children;
+            if (snapshot.hasData) {
+              children = <Widget>[
+                const Icon(
+                  Icons.check_circle_outline,
+                  color: Colors.green,
+                  size: 60,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text('Result: ${snapshot.data}'),
+                ),
+              ];
+            } else if (snapshot.hasError) {
+              children = <Widget>[
+                const Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                  size: 60,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text('Error: ${snapshot.error}'),
+                ),
+              ];
+            } else {
+              children = const <Widget>[
+                SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: CircularProgressIndicator(),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Text('Awaiting result...'),
+                ),
+              ];
+            }
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: children,
+              ),
+            );
+          },
         ),
       ),
     );

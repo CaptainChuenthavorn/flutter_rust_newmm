@@ -4,7 +4,11 @@ import 'package:flutter_rust_newmm/src/rust/frb_generated.dart';
 
 /// Flutter code sample for [FutureBuilder].
 
-void main() => runApp(const FutureBuilderExampleApp());
+// void main() => runApp(const FutureBuilderExampleApp());
+Future<void> main() async {
+  await RustLib.init();
+  runApp(const FutureBuilderExampleApp());
+}
 
 class FutureBuilderExampleApp extends StatelessWidget {
   const FutureBuilderExampleApp({super.key});
@@ -24,23 +28,29 @@ class FutureBuilderExample extends StatefulWidget {
   State<FutureBuilderExample> createState() => _FutureBuilderExampleState();
 }
 
-class _FutureBuilderExampleState extends State<FutureBuilderExample> {
-  final Future<String> _calculation = Future<String>.delayed(
-    const Duration(seconds: 2),
-    () => 'Data Loaded',
+// จำลองใช้เป็นแบบฟังก์ชั่น ให้เสมือนดึงข้อมูลจาก server
+Future<String> fetchData() async {
+  final response = await Future<String>.delayed(
+    const Duration(seconds: 5),
+    () => greet(name: 'POP'),
   );
+  return response;
+}
+
+class _FutureBuilderExampleState extends State<FutureBuilderExample> {
+  // final Future<String> _calculation = (await greet(name:"Hi")) as Future<String>;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sample Code'),
+        title: const Text('Future Flutter + Rust'),
       ),
       body: DefaultTextStyle(
         style: Theme.of(context).textTheme.displayMedium!,
         textAlign: TextAlign.center,
         child: FutureBuilder<String>(
-          future: _calculation, // a previously-obtained Future<String> or null
+          future: fetchData(), // a previously-obtained Future<String> or null
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             List<Widget> children;
             if (snapshot.hasData) {

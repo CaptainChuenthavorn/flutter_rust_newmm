@@ -94,6 +94,9 @@ class RustLibWire extends BaseWire {
           call_id, ptr_, rust_vec_len_, data_len_);
 
   dynamic /* flutter_rust_bridge::for_generated::WireSyncRust2DartDco */
+      wire_gettoken(String name) => wasmModule.wire_gettoken(name);
+
+  dynamic /* flutter_rust_bridge::for_generated::WireSyncRust2DartDco */
       wire_greet(String name) => wasmModule.wire_greet(name);
 
   void wire_init_app(NativePortType port_) => wasmModule.wire_init_app(port_);
@@ -113,6 +116,9 @@ class RustLibWasmModule implements WasmModule {
 
   external void dart_fn_deliver_output(int call_id,
       PlatformGeneralizedUint8ListPtr ptr_, int rust_vec_len_, int data_len_);
+
+  external dynamic /* flutter_rust_bridge::for_generated::WireSyncRust2DartDco */
+      wire_gettoken(String name);
 
   external dynamic /* flutter_rust_bridge::for_generated::WireSyncRust2DartDco */
       wire_greet(String name);

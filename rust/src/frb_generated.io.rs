@@ -52,6 +52,13 @@ pub extern "C" fn frbgen_flutter_rust_newmm_dart_fn_deliver_output(
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_flutter_rust_newmm_wire_gettoken(
+    name: *mut wire_cst_list_prim_u_8_strict,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_gettoken_impl(name)
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_flutter_rust_newmm_wire_greet(
     name: *mut wire_cst_list_prim_u_8_strict,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {

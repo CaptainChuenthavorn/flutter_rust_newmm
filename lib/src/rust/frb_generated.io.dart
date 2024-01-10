@@ -135,6 +135,23 @@ class RustLibWire implements BaseWire {
   late final _dart_fn_deliver_output = _dart_fn_deliver_outputPtr
       .asFunction<void Function(int, ffi.Pointer<ffi.Uint8>, int, int)>();
 
+  WireSyncRust2DartDco wire_gettoken(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> name,
+  ) {
+    return _wire_gettoken(
+      name,
+    );
+  }
+
+  late final _wire_gettokenPtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncRust2DartDco Function(
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
+      'frbgen_flutter_rust_newmm_wire_gettoken');
+  late final _wire_gettoken = _wire_gettokenPtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
+
   WireSyncRust2DartDco wire_greet(
     ffi.Pointer<wire_cst_list_prim_u_8_strict> name,
   ) {

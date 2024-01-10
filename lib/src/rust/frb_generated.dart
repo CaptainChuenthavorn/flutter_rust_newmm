@@ -61,7 +61,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
-  String getToken({required String name, dynamic hint});
+  List<String> getToken({required String text, dynamic hint});
 
   String greet({required String name, dynamic hint});
 
@@ -77,18 +77,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
-  String getToken({required String name, dynamic hint}) {
+  List<String> getToken({required String text, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_String(name);
+        var arg0 = cst_encode_String(text);
         return wire.wire_get_token(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_String,
+        decodeSuccessData: dco_decode_list_String,
         decodeErrorData: null,
       ),
       constMeta: kGetTokenConstMeta,
-      argValues: [name],
+      argValues: [text],
       apiImpl: this,
       hint: hint,
     ));
@@ -96,7 +96,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kGetTokenConstMeta => const TaskConstMeta(
         debugName: "get_token",
-        argNames: ["name"],
+        argNames: ["text"],
       );
 
   @override
@@ -150,6 +150,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<String> dco_decode_list_String(dynamic raw) {
+    return (raw as List<dynamic>).map(dco_decode_String).toList();
+  }
+
+  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
     return raw as Uint8List;
   }
@@ -168,6 +173,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   String sse_decode_String(SseDeserializer deserializer) {
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
     return utf8.decoder.convert(inner);
+  }
+
+  @protected
+  List<String> sse_decode_list_String(SseDeserializer deserializer) {
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <String>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_String(deserializer));
+    }
+    return ans_;
   }
 
   @protected
@@ -207,6 +222,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_String(String self, SseSerializer serializer) {
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
+  }
+
+  @protected
+  void sse_encode_list_String(List<String> self, SseSerializer serializer) {
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_String(item, serializer);
+    }
   }
 
   @protected

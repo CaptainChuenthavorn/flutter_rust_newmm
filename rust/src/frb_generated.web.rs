@@ -25,6 +25,15 @@ impl CstDecode<String> for String {
         self
     }
 }
+impl CstDecode<Vec<String>> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+    fn cst_decode(self) -> Vec<String> {
+        self.dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap()
+            .iter()
+            .map(CstDecode::cst_decode)
+            .collect()
+    }
+}
 impl CstDecode<Vec<u8>> for Box<[u8]> {
     fn cst_decode(self) -> Vec<u8> {
         self.into_vec()
@@ -66,8 +75,8 @@ pub fn dart_fn_deliver_output(
 }
 
 #[wasm_bindgen]
-pub fn wire_get_token(name: String) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_get_token_impl(name)
+pub fn wire_get_token(text: String) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_get_token_impl(text)
 }
 
 #[wasm_bindgen]

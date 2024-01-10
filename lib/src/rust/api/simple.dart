@@ -9,5 +9,5 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 String greet({required String name, dynamic hint}) =>
     RustLib.instance.api.greet(name: name, hint: hint);
 
-String getToken({required String name, dynamic hint}) =>
-    RustLib.instance.api.getToken(name: name, hint: hint);
+List<String> getToken({required String text, dynamic hint}) =>
+    RustLib.instance.api.getToken(text: text, hint: hint);

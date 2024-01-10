@@ -16,6 +16,15 @@ impl CstDecode<String> for *mut wire_cst_list_prim_u_8_strict {
         String::from_utf8(vec).unwrap()
     }
 }
+impl CstDecode<Vec<String>> for *mut wire_cst_list_String {
+    fn cst_decode(self) -> Vec<String> {
+        let vec = unsafe {
+            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(CstDecode::cst_decode).collect()
+    }
+}
 impl CstDecode<Vec<u8>> for *mut wire_cst_list_prim_u_8_strict {
     fn cst_decode(self) -> Vec<u8> {
         unsafe {
@@ -53,9 +62,9 @@ pub extern "C" fn frbgen_flutter_rust_newmm_dart_fn_deliver_output(
 
 #[no_mangle]
 pub extern "C" fn frbgen_flutter_rust_newmm_wire_get_token(
-    name: *mut wire_cst_list_prim_u_8_strict,
+    text: *mut wire_cst_list_prim_u_8_strict,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_get_token_impl(name)
+    wire_get_token_impl(text)
 }
 
 #[no_mangle]
@@ -71,6 +80,20 @@ pub extern "C" fn frbgen_flutter_rust_newmm_wire_init_app(port_: i64) {
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_flutter_rust_newmm_cst_new_list_String(
+    len: i32,
+) -> *mut wire_cst_list_String {
+    let wrap = wire_cst_list_String {
+        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+            <*mut wire_cst_list_prim_u_8_strict>::new_with_null_ptr(),
+            len,
+        ),
+        len,
+    };
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_flutter_rust_newmm_cst_new_list_prim_u_8_strict(
     len: i32,
 ) -> *mut wire_cst_list_prim_u_8_strict {
@@ -81,6 +104,12 @@ pub extern "C" fn frbgen_flutter_rust_newmm_cst_new_list_prim_u_8_strict(
     flutter_rust_bridge::for_generated::new_leak_box_ptr(ans)
 }
 
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_list_String {
+    ptr: *mut *mut wire_cst_list_prim_u_8_strict,
+    len: i32,
+}
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct wire_cst_list_prim_u_8_strict {

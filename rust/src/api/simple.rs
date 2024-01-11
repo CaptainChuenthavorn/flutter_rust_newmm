@@ -24,15 +24,27 @@ fn read_file(file_path: &str) -> Result<String, io::Error> {
     }
 }
 #[flutter_rust_bridge::frb(sync)] // Synchronous mode for simplicity of the demo
-pub fn greet(name: String) -> String {
+pub fn greet(name: String) -> Vec<String> {
     // format!("Hello, {name}!")
     // let my_str = include_str!("s/kk_th.txt");
     // let path = Path::new("word_th.txt").exists();
-    let path = Path::new("src/api/words_th.txt").exists();
-    format!("{name}{path}")
-    
+    // let path = Path::new("src/api/words_th.txt").exists();
+    // format!("{name}{path}")
+    let my_str = include_str!("words_th.txt");
+
+    // Assuming your words are separated by some delimiter, like a newline character
+    let delimiter = "\n";
+    let split_words: Vec<&str> = my_str.split(delimiter).collect();
+
+    // Convert the split words into Vec<String>
+    let words: Vec<String> = split_words.iter().map(|&s| s.to_string()).collect();
+
+    // Print the result or use it as needed
+    words
     // format!("{my_str}")
 }
+    
+
 
 #[flutter_rust_bridge::frb(init)]
 pub fn init_app() {

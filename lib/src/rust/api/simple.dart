@@ -6,7 +6,7 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-String greet({required String name, dynamic hint}) =>
+List<String> greet({required String name, dynamic hint}) =>
     RustLib.instance.api.greet(name: name, hint: hint);
 
 List<String> getToken({required String text, dynamic hint}) =>

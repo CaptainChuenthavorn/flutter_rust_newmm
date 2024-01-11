@@ -63,7 +63,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 abstract class RustLibApi extends BaseApi {
   List<String> getToken({required String text, dynamic hint});
 
-  String greet({required String name, dynamic hint});
+  List<String> greet({required String name, dynamic hint});
 
   Future<void> initApp({dynamic hint});
 }
@@ -100,14 +100,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  String greet({required String name, dynamic hint}) {
+  List<String> greet({required String name, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 = cst_encode_String(name);
         return wire.wire_greet(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_String,
+        decodeSuccessData: dco_decode_list_String,
         decodeErrorData: null,
       ),
       constMeta: kGreetConstMeta,

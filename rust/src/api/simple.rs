@@ -1,14 +1,37 @@
 use nlpo3::tokenizer::newmm::NewmmTokenizer;
 use nlpo3::tokenizer::tokenizer_trait::Tokenizer;
 
+use std::path::Path;
 
+use std::fs::File;
+use std::io::{self, Read};
+#[flutter_rust_bridge::frb(sync)]
+fn read_file(file_path: &str) -> Result<String, io::Error> {
+    // Try to open the file
+    let file_reader = File::open(file_path);
+
+    // Check if the file was successfully opened
+    let mut file = match file_reader {
+        Ok(file) => file,
+        Err(err) => return Err(err),
+    };
+
+    // Read the content of the file into a String
+    let mut content = String::new();
+    match file.read_to_string(&mut content) {
+        Ok(_) => Ok(content),
+        Err(err) => Err(err),
+    }
+}
 #[flutter_rust_bridge::frb(sync)] // Synchronous mode for simplicity of the demo
 pub fn greet(name: String) -> String {
     // format!("Hello, {name}!")
-    let my_str = include_str!("kk_th.txt");
+    // let my_str = include_str!("s/kk_th.txt");
     // let path = Path::new("word_th.txt").exists();
-    // format!("{name}{path}")
-    format!("{my_str}")
+    let path = Path::new("src/api/words_th.txt").exists();
+    format!("{name}{path}")
+    
+    // format!("{my_str}")
 }
 
 #[flutter_rust_bridge::frb(init)]
@@ -19,8 +42,10 @@ pub fn init_app() {
 
 #[flutter_rust_bridge::frb(sync)]
 pub fn get_token(text: String) -> Vec<String> {
-    
-    let tokenizer = NewmmTokenizer::new("words_th.txt");
+
+    // let tokenizer = NewmmTokenizer::new(r"words_th.txt");
+    let words = vec!["ปาลิเมนต์".to_string(), "คอนสติติวชั่น".to_string()];
+    let tokenizer = NewmmTokenizer::from_word_list(words);
     let tokens = tokenizer.segment(&text, true, false).unwrap();
     let token_strings: Vec<String> = tokens.iter().cloned().collect();
 

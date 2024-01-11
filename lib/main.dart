@@ -32,8 +32,9 @@ class FutureBuilderExample extends StatefulWidget {
 Future<List<String>> fetchData() async {
   final response = await Future<List<String>>.delayed(
     const Duration(seconds: 0),
-    () => getToken(text: 'ห้องสมุดประชาชน'),
+    () => getToken(text: 'ปาลิเมนต์คอนสติติวชั่น'),
   );
+  print(response);
   return response;
 }
 

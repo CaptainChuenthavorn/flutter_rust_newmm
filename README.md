@@ -1,6 +1,6 @@
 # flutter_rust_newmm
 
-flutter_rust_newmm is a project that integrates Rust within Flutter to utilize the Newmm tokenizer for Thai words. This integration is achieved through the use of the `flutter_rust_bridge` repository.
+flutter_rust_newmm is a project that integrates Rust within Flutter to utilize the [nlpo3](https://github.com/PyThaiNLP/nlpo3)Newmm tokenizer for Thai words. This integration is achieved through the use of the `flutter_rust_bridge` repository.
 
 ## Integration with flutter_rust_bridge
 

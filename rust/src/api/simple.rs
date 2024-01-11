@@ -56,7 +56,18 @@ pub fn init_app() {
 pub fn get_token(text: String) -> Vec<String> {
 
     // let tokenizer = NewmmTokenizer::new(r"words_th.txt");
-    let words = vec!["ปาลิเมนต์".to_string(), "คอนสติติวชั่น".to_string()];
+    let my_str = include_str!("words_th.txt");
+
+    // Assuming your words are separated by some delimiter, like a newline character
+    let delimiter = "\n";
+    let split_words: Vec<&str> = my_str.split(delimiter).collect();
+
+    // Convert the split words into Vec<String>
+    let words_split: Vec<String> = split_words.iter().map(|&s| s.to_string()).collect();
+
+    // Print the result or use it as needed
+    // words
+    let words = words_split;
     let tokenizer = NewmmTokenizer::from_word_list(words);
     let tokens = tokenizer.segment(&text, true, false).unwrap();
     let token_strings: Vec<String> = tokens.iter().cloned().collect();

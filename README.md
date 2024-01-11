@@ -66,4 +66,7 @@ Future<List<String>> fetchData() async {
 }
 
 ```
+the result You will get
+![Screenshot 2567-01-12 at 01 18 06](https://github.com/CaptainChuenthavorn/flutter_rust_newmm/assets/38762000/8be7db3a-c1ff-44bf-a8c8-a2b5edb09506)
+
 Feel free to modify the provided code snippets according to your specific needs.

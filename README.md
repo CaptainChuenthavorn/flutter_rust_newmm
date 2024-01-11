@@ -12,7 +12,10 @@ cargo install 'flutter_rust_bridge_codegen@^2.0.0-dev.0' && \
 ```
 
 After this process, you'll have a Flutter app with Rust code integrated.
-
+Ps. We need to execute the code generator whenever the Rust code is changed, or use --watch to automatically re-generate when code changes:
+```bash
+flutter_rust_bridge_codegen generate --watch
+```
 ## Adding Newmm Tokenizer
 1. Add the following dependencies to your Cargo.toml:
 ```toml

@@ -25,6 +25,9 @@ nlpo3 = "1.3.2"
 ```
 2. Create a function in rust/src/api/simple.rs:
 ```rust
+use nlpo3::tokenizer::newmm::NewmmTokenizer;
+use nlpo3::tokenizer::tokenizer_trait::Tokenizer;
+
 #[flutter_rust_bridge::frb(sync)]
 pub fn get_token(text: String) -> Vec<String> {
     let my_str = include_str!("words_th.txt");
